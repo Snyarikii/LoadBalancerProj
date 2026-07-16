@@ -37,23 +37,25 @@ sudo docker compose up -d --build
 make status
 ```
 ### REST API Reference
+
 * **Retrieve Active Replicas:**
-    * Endpoint: **GET /rep**
+    * Endpoint: `GET /rep`
     * Action: Queries the consistent hashing ring and returns a list of active backend nodes.
 * **Elastic Scale-Up:**
-    * Endpoint: **POST /add**
-    * Payload: **{"n": 2, "hostnames": ["server-4", "server-5"]}**
+    * Endpoint: `POST /add`
+    * Payload: `{"n": 2, "hostnames": ["server-4", "server-5"]}`
     * Action: Provisions N new Docker containers on the fly and maps their virtual replicas to the hash ring
 * **Dynamic Scale-Down**
-    * Endpoint: **DELETE /rm**
-    * Payload: **{"n": 1, "hostnames": ["server-5"]}
+    * Endpoint: `DELETE /rm`
+    * Payload: `{"n": 1, "hostnames": ["server-5"]}`
     * Action: Purges virtual nodes, shuts down corresponding containers, and frees system resources.
 * **Stateful Client Request Routing**
-    * Endpoint: **Get /<path>?id=<request_id>**
+    * Endpoint: `Get /<path>?id=<request_id>`
     * Action: Hashes the incoming query ID, maps it clockwise to the nearest server replica, and proxies the payload seamlessly.
 
 ### Testing & Scalability Verification
-The testing environment uses a multithread simulation script **test_analysis.py** to flood the load balancer with 10,000 concurrent client requests over persistent connections.
+
+The testing environment uses a multithread simulation script `test_analysis.py` to flood the load balancer with 10,000 concurrent client requests over persistent connections.
 
 To run the load testing analysis:
 
